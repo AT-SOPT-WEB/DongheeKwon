@@ -206,7 +206,7 @@ aside {
 .banner {
   display: flex;
   gap: 10px;
-  animation: scroll-left 16s linear infinite;
+  animation: scroll-left 10s linear infinite;
 }
 .banner img {
   width: 250px;
