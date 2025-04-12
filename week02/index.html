@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="{handleClick()}">리스트 추가하기</button>
+    <ul id="ul"></ul>
+  </body>
+
+  <script>
+    let ulTag = document.querySelector("#ul");
+    const handleClick = () => {
+      for (let i = 0; i < 3000; i++) {
+        const liTag = document.createElement("li");
+        liTag.innerText = `${i + 1}`;
+        ulTag.appendChild(liTag);
+      }
+    };
+  </script>
+</html>
