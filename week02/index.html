@@ -11,13 +11,14 @@
   </body>
 
   <script>
-    let ulTag = document.querySelector("#ul");
     const handleClick = () => {
+      let ulTag = document.querySelector("#ul");
+      let list = "";
       for (let i = 0; i < 3000; i++) {
-        const liTag = document.createElement("li");
-        liTag.innerText = `${i + 1}`;
-        ulTag.appendChild(liTag);
+        list += `<li>${i}</li>`;
       }
+
+      ulTag.innerHTML = list;
     };
   </script>
 </html>
