@@ -180,6 +180,7 @@ const handleComplete = () => {
       })
     )
   );
+  CHECKBOX_IDS = [];
   renderTodo();
 };
 // 처음 실행될 때 render 해주기

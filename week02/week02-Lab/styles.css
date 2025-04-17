@@ -42,7 +42,7 @@ button,
 .priority-options {
   visibility: hidden;
   position: absolute;
-  top: 100%; /* 부모 아래쪽에 정확히 붙음 */
+  top: 100%;
   left: 0;
   background-color: white;
   border: 1px solid #ccc;
@@ -60,7 +60,14 @@ button,
 }
 
 .priority-option {
+  display: block;
+  padding: 6px 12px;
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.priority-option:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .priority-options.show {
   visibility: visible;
