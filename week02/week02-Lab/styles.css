@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+li {
+  list-style: none;
+}
+button,
+.priority-btn {
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  padding: 5px 20px;
+  background-color: #9fb3df;
+  cursor: pointer;
+}
+
+.menus {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 20px 20px 0;
+}
+
+.priority-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.priority-options {
+  visibility: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px 0;
+  margin-top: 4px;
+  z-index: 999;
+  border-radius: 5px;
+  min-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.priority-img {
+  cursor: pointer;
+}
+
+.priority-option {
+  display: block;
+  padding: 6px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.priority-option:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.priority-options.show {
+  visibility: visible;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+/*main*/
+main {
+  width: 100%;
+  background-color: rgb(239, 239, 239);
+  > * {
+    width: inherit;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 30px 10px;
+}
+/*main input section*/
+.input-section {
+  display: flex;
+  justify-content: space-between;
+}
+.todo-input {
+  width: 50%;
+}
+.btn-wrapper {
+  display: flex;
+  gap: 10px;
+}
+/*main table section*/
+.table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.table-edit-btns {
+  justify-content: flex-end;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgb(140 140 140);
+}
+th {
+  background-color: #9fb3df;
+  color: white;
+}
+th,
+td {
+  padding: 3px;
+}
+td {
+  text-align: center;
+  background-color: white;
+}
