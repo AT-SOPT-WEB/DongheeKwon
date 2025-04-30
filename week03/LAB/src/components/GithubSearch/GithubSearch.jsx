@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   GithubWrapper,
   Keyword,
@@ -7,6 +7,7 @@ import {
   Title,
   XImg,
   Text,
+  Message,
 } from "./GithubSearch.styles";
 import Input from "../Input/Input";
 import x from "../../assets/icons/x.svg";
@@ -22,6 +23,7 @@ export default function GithubSearch() {
     handleKeyDown,
     userInfo,
     gotoGihub,
+    getUserInfo,
   } = useGithubSearch();
   return (
     <GithubWrapper>
@@ -36,7 +38,13 @@ export default function GithubSearch() {
           <Title>최근 검색어</Title>
           <KeyWords>
             {recentKeywords.map((keyword) => (
-              <Keyword key={keyword}>
+              <Keyword
+                key={keyword}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  getUserInfo(keyword);
+                }}
+              >
                 <Text>{keyword}</Text>
                 <XImg
                   src={x}
@@ -48,6 +56,12 @@ export default function GithubSearch() {
           </KeyWords>
         </RecentSearches>
       )}
+
+      {userInfo.status === "pending" && <Message>⏳ 검색 중입니다...</Message>}
+
+      {userInfo.status === "rejected" && (
+        <Message>❌ 해당 사용자를 찾을 수 없습니다.</Message>
+      )}
       {userInfo.status === "resolved" && (
         <GithubProfileCard
           user={userInfo.data}
@@ -58,3 +72,6 @@ export default function GithubSearch() {
     </GithubWrapper>
   );
 }
+const Loading = () => {
+  return <div>loading</div>;
+};

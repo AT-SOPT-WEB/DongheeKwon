@@ -37,6 +37,7 @@ export const Keyword = styled.div`
   gap: 4px;
   border-radius: 10px;
   border: 1px solid black;
+  cursor: pointer;
 `;
 export const Text = styled.span`
   ${({ theme }) => theme.font.normal}
@@ -44,4 +45,11 @@ export const Text = styled.span`
 export const XImg = styled.img`
   width: 15px;
   cursor: pointer;
+`;
+export const Message = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.primary};
+  ${({ theme }) => theme.font.medium};
 `;
