@@ -5,6 +5,6 @@ export function generateRandomNumber() {
     const randomDigit = Math.floor(Math.random() * 10).toString();
     digits.add(randomDigit);
   }
-
+  console.log(digits);
   return [...digits];
 }
