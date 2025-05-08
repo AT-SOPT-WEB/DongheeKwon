@@ -1,15 +1,19 @@
 let CHECKBOX_IDS = [];
 const topCheckBox = document.getElementById("0");
+// 메뉴 필터 버튼들 바인딩
+document.querySelectorAll(".menu-item[data-filter]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const filterType = button.getAttribute("data-filter");
+    filterTodos(filterType);
+  });
+});
 
-// 중요도 dropdown
-const handleDropDown = (event) => {
-  event.stopPropagation();
-
-  const priorityBtn = event.target.closest(".priority-btn");
-  const options = priorityBtn.querySelector(".priority-options");
-
-  options.classList.toggle("show");
-};
+// 중요도 드롭다운 토글
+document.querySelectorAll(".priority-img").forEach((img) => {
+  img.addEventListener("click", (event) => {
+    handleDropDown(event);
+  });
+});
 //만약 중요도를 선택하게 된다면 원래 select되어있는 중요도 지우고 재할당, drop down 다시 숨겨지게
 document.querySelectorAll(".priority-option").forEach((li) => {
   li.addEventListener("click", () => {
@@ -22,6 +26,39 @@ document.querySelectorAll(".priority-option").forEach((li) => {
     dropdown.classList.remove("show");
   });
 });
+const getCheckedIds = () => {
+  const checkboxes = document.querySelectorAll(
+    "input.todo-checkBox:not([id='0'])"
+  );
+  return [...checkboxes]
+    .filter((cb) => cb.checked)
+    .map((cb) => parseInt(cb.id));
+};
+// 중요도 dropdown
+const handleDropDown = (event) => {
+  event.stopPropagation();
+
+  const priorityBtn = event.target.closest(".priority-btn");
+  const options = priorityBtn.querySelector(".priority-options");
+
+  options.classList.toggle("show");
+};
+const handleIndividualCheck = () => {
+  const allCheckboxes = document.querySelectorAll(
+    "input.todo-checkBox:not([id='0'])"
+  );
+  const totalCount = allCheckboxes.length;
+  const checkedCount = [...allCheckboxes].filter((cb) => cb.checked).length;
+  topCheckBox.checked = totalCount === checkedCount && totalCount > 0;
+};
+const handleSelectAll = (isChecked) => {
+  const allCheckboxes = document.querySelectorAll(
+    "input.todo-checkBox:not([id='0'])"
+  );
+  allCheckboxes.forEach((cb) => {
+    cb.checked = isChecked;
+  });
+};
 
 //todo 추가하는 핸들러
 const addTodo = () => {
@@ -32,7 +69,7 @@ const addTodo = () => {
     return;
   }
 
-  const priority = selectedPriority.textContent;
+  const priority = selectedPriority.dataset.importance;
   const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
   // 새 항목 추가
@@ -62,21 +99,38 @@ const renderTodo = (todos) => {
     if (index !== 0) row.remove();
   });
 
-  todoList.forEach((todo, index) => {
+  todoList.forEach((todo) => {
     const tr = document.createElement("tr");
 
-    tr.innerHTML = `
-        <td><input type="checkbox" id="${todo.id}"  class="todo-checkBox" ></td>
-        <td>${todo.importance}</td>
-        <td>${todo.completed ? "✅ " : "❌"}</td>
-        <td>${todo.title}</td>
-      `;
+    // 1. 체크박스
+    const tdCheckbox = document.createElement("td");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = todo.id;
+    checkbox.className = "todo-checkBox";
+    checkbox.addEventListener("click", handleCheckBox);
+    tdCheckbox.appendChild(checkbox);
 
+    // 2. 중요도
+    const tdImportance = document.createElement("td");
+    tdImportance.textContent = todo.importance;
+
+    // 3. 완료 여부
+    const tdCompleted = document.createElement("td");
+    tdCompleted.textContent = todo.completed ? "✅" : "❌";
+
+    // 4. 할 일 내용
+    const tdTitle = document.createElement("td");
+    tdTitle.textContent = todo.title;
+
+    // tr에 모든 td 추가
+    tr.appendChild(tdCheckbox);
+    tr.appendChild(tdImportance);
+    tr.appendChild(tdCompleted);
+    tr.appendChild(tdTitle);
+
+    // 최종적으로 table에 추가
     todoTable.appendChild(tr);
-    tr.querySelector(".todo-checkBox").addEventListener(
-      "click",
-      handleCheckBox
-    );
   });
   const allCheckboxes = document.querySelectorAll(
     "input.todo-checkBox:not([id='0'])"
@@ -116,71 +170,45 @@ const handleCheckBox = (event) => {
   const checkboxId = parseInt(event.target.getAttribute("id"));
   const isChecked = event.target.checked;
 
-  const allCheckboxes = document.querySelectorAll(
-    "input.todo-checkBox:not([id='0'])"
-  );
-
   if (checkboxId === 0) {
-    document.querySelectorAll(".todo-checkBox").forEach((cb) => {
-      cb.checked = isChecked;
-    });
-    CHECKBOX_IDS = isChecked
-      ? [...allCheckboxes].map((cb) => parseInt(cb.id))
-      : [];
+    handleSelectAll(isChecked);
   } else {
-    if (isChecked) {
-      if (!CHECKBOX_IDS.includes(checkboxId)) {
-        CHECKBOX_IDS.push(checkboxId);
-      }
-    } else {
-      CHECKBOX_IDS = CHECKBOX_IDS.filter((id) => id !== checkboxId);
-    }
-    const totalCount = allCheckboxes.length;
-    const checkedCount = [...allCheckboxes].filter((cb) => cb.checked).length;
-    topCheckBox.checked = totalCount === checkedCount;
+    handleIndividualCheck();
   }
 };
-
 //삭제 버튼 핸들러
 const handleDelete = () => {
-  if (CHECKBOX_IDS.length <= 0) {
+  const checkedIds = getCheckedIds();
+  if (checkedIds.length === 0) {
     alert("todo를 선택하세요.");
     return;
   }
+
   const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+  const updatedList = todoList.filter((todo) => !checkedIds.includes(todo.id));
+  localStorage.setItem("todoList", JSON.stringify(updatedList));
 
-  localStorage.setItem(
-    "todoList",
-    JSON.stringify(todoList.filter((todo) => !CHECKBOX_IDS.includes(todo.id)))
-  );
-
-  CHECKBOX_IDS = [];
   renderTodo();
 };
 // 완료 버튼 핸들러
 const handleComplete = () => {
+  const checkedIds = getCheckedIds();
   const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
   const hasCompleted = todoList.some(
-    (todo) => CHECKBOX_IDS.includes(todo.id) && todo.completed
+    (todo) => checkedIds.includes(todo.id) && todo.completed
   );
 
   if (hasCompleted) {
     alert("이미 완료된 todo입니다.");
     return;
   }
-  localStorage.setItem(
-    "todoList",
-    JSON.stringify(
-      todoList.map((todo) => {
-        if (CHECKBOX_IDS.includes(todo.id)) {
-          return { ...todo, completed: true };
-        }
-        return todo;
-      })
-    )
+
+  const updatedList = todoList.map((todo) =>
+    checkedIds.includes(todo.id) ? { ...todo, completed: true } : todo
   );
-  CHECKBOX_IDS = [];
+  localStorage.setItem("todoList", JSON.stringify(updatedList));
+
   renderTodo();
 };
 // 처음 실행될 때 render 해주기

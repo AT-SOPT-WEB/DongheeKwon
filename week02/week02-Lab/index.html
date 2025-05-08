@@ -8,14 +8,14 @@
   </head>
   <body>
     <nav class="menus">
-      <button class="menu-item" onclick="filterTodos(`전체`)">전체</button>
-      <button class="menu-item" onclick="filterTodos(`완료`)">완료</button>
-      <button class="menu-item" onclick="filterTodos(`미완료`)">미완료</button>
+      <button class="menu-item" data-filter="전체">전체</button>
+      <button class="menu-item" data-filter="완료">완료</button>
+      <button class="menu-item" data-filter="미완료">미완료</button>
 
       <div class="menu-item priority-btn">
         <div class="important-title">
           <span>중요도</span>
-          <span class="priority-img" onclick="handleDropDown(event)">🔻</span>
+          <span class="priority-img">🔻</span>
         </div>
 
         <ul class="priority-options">
@@ -54,7 +54,7 @@
           <button onclick="handleDelete()">삭제</button>
           <button onclick="handleComplete()">완료</button>
         </div>
-        <table border="1" class="todo-table">
+        <table class="todo-table">
           <tr>
             <th>
               <input
@@ -68,7 +68,6 @@
             <th>완료됨</th>
             <th>할 일</th>
           </tr>
-          <tr></tr>
         </table>
       </section>
     </main>
