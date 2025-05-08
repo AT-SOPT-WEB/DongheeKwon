@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router";
-import router from "./pages/Router";
+import router from "./router/Router";
 import "./styles/reset.css";
 
 function App() {
