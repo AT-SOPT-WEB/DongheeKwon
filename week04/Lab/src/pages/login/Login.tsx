@@ -25,6 +25,7 @@ export default function Login() {
         />
         <Input
           placeholder={"비밀번호"}
+          type={"password"}
           value={password}
           onChange={handlePassword}
         />

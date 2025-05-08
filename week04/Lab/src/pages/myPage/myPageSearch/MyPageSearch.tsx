@@ -16,7 +16,7 @@ export default function MyPageSearch() {
         onChange={handleKeyword}
         placeholder="검색할 닉네임을 입력하세요."
       />
-      <Button text="확인" onClick={handleSubmit} disabled={!keyword} />
+      <Button text="확인" onClick={handleSubmit} />
       <ListWrapper>
         {nickNameList.map((n, idx) => (
           <NickNameItem key={idx}>{n}</NickNameItem>

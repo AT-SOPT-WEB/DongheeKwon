@@ -1,3 +1,4 @@
+import handleAxiosError from "../../utils/handleAxiosError.js";
 import instance from "../instance/instance.js";
 
 interface NickNameResponse {
@@ -18,16 +19,9 @@ const PatchNickName = async (
         headers: { userId: userId },
       }
     );
-    return response;
-  } catch (error: any) {
-    if (error.response) {
-      alert("patch에 실패");
-      console.error("failed:", error.response.data);
-    } else {
-      alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
-      console.error("Network error:", error);
-    }
-    throw error;
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error, "닉네임 수정 실패");
   }
 };
 

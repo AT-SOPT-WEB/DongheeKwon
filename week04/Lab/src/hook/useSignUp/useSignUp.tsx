@@ -15,7 +15,6 @@ export const useSignUp = () => {
         password.trim(),
         nickname.trim()
       );
-      console.log("회원가입 성공", res);
       alert(`${nickname}님 회원가입에 성공하셨습니다!`);
       navigate("/login");
     } catch (error) {

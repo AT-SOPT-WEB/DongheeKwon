@@ -12,7 +12,8 @@ export const useKeyword = () => {
     try {
       if (!userId) return;
       const response = await GetNickNames(keyword);
-      setNickNameList(response.data?.data.nicknameList);
+      console.log(response);
+      setNickNameList(response.data?.nicknameList);
     } catch (error) {
       console.error("patch 실패", error);
     }

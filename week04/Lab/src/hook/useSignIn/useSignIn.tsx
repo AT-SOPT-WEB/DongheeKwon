@@ -6,11 +6,10 @@ export const useSignIn = () => {
 
   const handleSubmit = async (loginId: string, password: string) => {
     try {
-      console.log("in");
       const res = await PostSignIn(loginId.trim(), password.trim());
       console.log(res);
-      if (res.data?.data.userId) {
-        localStorage.setItem("userId", res.data.data.userId);
+      if (res.data?.userId) {
+        localStorage.setItem("userId", res.data.userId);
         navigate("/mypage");
       }
     } catch (error) {

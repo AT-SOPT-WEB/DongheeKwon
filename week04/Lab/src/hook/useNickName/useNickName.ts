@@ -21,7 +21,7 @@ export const useNickName = () => {
       try {
         if (!userId) return;
         const res = await GetNickName(userId);
-        setNickName(res.data.data.nickname);
+        setNickName(res.data?.nickname);
       } catch (error) {
         console.log("닉네임 불러오기 실패: ", error);
       }
