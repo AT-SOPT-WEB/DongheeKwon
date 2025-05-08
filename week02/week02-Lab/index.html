@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="menus">
+      <button class="menu-item" data-filter="전체">전체</button>
+      <button class="menu-item" data-filter="완료">완료</button>
+      <button class="menu-item" data-filter="미완료">미완료</button>
+
+      <div class="menu-item priority-btn">
+        <div class="important-title">
+          <span>중요도</span>
+          <span class="priority-img">🔻</span>
+        </div>
+
+        <ul class="priority-options">
+          <li class="priority-option" onclick="filterTodos(`중요도-1`)">1</li>
+          <li class="priority-option" onclick="filterTodos(`중요도-2`)">2</li>
+          <li class="priority-option" onclick="filterTodos(`중요도-3`)">3</li>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <section class="input-section">
+        <input
+          type="text"
+          placeholder="할 일을 입력하세요"
+          class="todo-input"
+        />
+        <div class="btn-wrapper">
+          <div class="priority-input priority-btn">
+            <div class="priority-title">
+              <span>중요도 선택</span>
+              <span class="priority-img" onclick="handleDropDown(event)"
+                >🔻</span
+              >
+            </div>
+            <ul class="priority-options">
+              <li class="priority-option">1</li>
+              <li class="priority-option">2</li>
+              <li class="priority-option">3</li>
+            </ul>
+          </div>
+          <button onclick="addTodo()">추가</button>
+        </div>
+      </section>
+      <section class="table-section">
+        <div class="btn-wrapper table-edit-btns">
+          <button onclick="handleDelete()">삭제</button>
+          <button onclick="handleComplete()">완료</button>
+        </div>
+        <table class="todo-table">
+          <tr>
+            <th>
+              <input
+                type="checkbox"
+                id="0"
+                onclick="handleCheckBox(event)"
+                class="todo-checkBox"
+              />
+            </th>
+            <th>중요도</th>
+            <th>완료됨</th>
+            <th>할 일</th>
+          </tr>
+        </table>
+      </section>
+    </main>
+  </body>
+  <script src="./index.js"></script>
+</html>
